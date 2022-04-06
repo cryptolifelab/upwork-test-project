@@ -9,6 +9,7 @@ import {shuffleSort} from "./helpers/sort/shuffleSort";
 import "./App.css";
 import JobDefinition from "./types/job";
 import {compareSortByPriority} from "./helpers/sort/compareSortByPriority";
+import Loader from "./components/Loader";
 
 const App: React.FC = () => {
     const [orderby, setOrderBy] = useState(OrderTypes.Random)
@@ -50,12 +51,12 @@ const App: React.FC = () => {
                 }}
             >
                 <Nav/>
-                {!!JobList.length && (
+                {!!JobList.length ? (
                     <div data-testid="app-jobs" className="App-jobs">
                         <OrderBy/>
                         {JobList}
                     </div>
-                )}
+                ) : <Loader isLoaded={!!JobList.length}/>}
             </OrderContext.Provider>
         </div>
     );
