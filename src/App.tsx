@@ -19,9 +19,11 @@ const App: React.FC = () => {
 
   const toggleOrder = (newOrder: string) => console.log(newOrder);
 
-  useEffect(() => {
-    setTimeout(() => fetchData(), 3000);
-  }, []);
+    useEffect(() => {
+        const timer = setTimeout(() => fetchData(), 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
 
   const JobList: React.ReactElement[] = jobs.map((value) => {
     const { id } = value;
