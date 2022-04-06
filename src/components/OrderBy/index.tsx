@@ -1,17 +1,17 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext } from "react";
 
+import OrderContext from "../../contexts/OrderContext";
 import { OrderTypes } from "../../types/order";
 import "./index.css";
 
-const Job: FC = () => {
-  const [selected, setSelected] = useState(OrderTypes.Random);
-
+const OrderBy: FC = () => {
+  const { orderby, toggleOrder } = useContext(OrderContext)
   const onOrderChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     if (
       e.target.value === OrderTypes.Random ||
-      e.target.value === OrderTypes.Prioprity
+      e.target.value === OrderTypes.Priority
     ) {
-      setSelected(e.target.value);
+      toggleOrder(e.target.value);
     }
   };
   return (
@@ -21,13 +21,13 @@ const Job: FC = () => {
         className="App-sortby__select"
         id="filtersortby"
         onChange={onOrderChange}
-        value={selected}
+        value={orderby}
       >
         <option value={OrderTypes.Random}>Random</option>
-        <option value={OrderTypes.Prioprity}>By Priority</option>
+        <option value={OrderTypes.Priority}>By Priority</option>
       </select>
     </div>
   );
 };
 
-export default Job;
+export default OrderBy;
