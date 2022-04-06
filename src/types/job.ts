@@ -1,8 +1,8 @@
-type CompanyDefinition = {
+interface CompanyDefinition{
   name: string;
-};
+}
 
-type JobDefinition = {
+interface JobDefinition {
   description: string;
   priority: number;
   id: string;
@@ -10,6 +10,6 @@ type JobDefinition = {
   url: string;
   city: string;
   company: CompanyDefinition;
-};
+}
 
 export default JobDefinition;
