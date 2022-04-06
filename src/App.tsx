@@ -7,6 +7,7 @@ import OrderContext from "./contexts/OrderContext";
 import { OrderTypes } from "./types/order";
 
 import "./App.css";
+import CircleLoader from "./components/CircleLoader";
 
 const App: React.FC = () => {
   const [jobs, setJobs] = useState([]);
@@ -37,12 +38,12 @@ const App: React.FC = () => {
         }}
       >
         <Nav />
-        {!!JobList.length && (
+        {(!!JobList.length && (
           <div data-testid="app-jobs" className="App-jobs">
             <OrderBy />
             {JobList}
           </div>
-        )}
+        )) || <CircleLoader loadingText="Loading" fullHeightWithNav />}
       </OrderContext.Provider>
     </div>
   );
