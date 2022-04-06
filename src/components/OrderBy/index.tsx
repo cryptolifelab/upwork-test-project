@@ -3,7 +3,9 @@ import React, { FC, useState } from "react";
 import { OrderTypes } from "../../types/order";
 import "./index.css";
 
-const Job: FC = () => {
+
+const Job: FC<any> = (prop:any) => {
+  const { changeOrder } = prop;
   const [selected, setSelected] = useState(OrderTypes.Random);
 
   const onOrderChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -12,6 +14,7 @@ const Job: FC = () => {
       e.target.value === OrderTypes.Prioprity
     ) {
       setSelected(e.target.value);
+      changeOrder(e.target.value);
     }
   };
   return (
