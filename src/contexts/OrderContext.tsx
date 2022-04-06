@@ -1,13 +1,15 @@
 import React from "react";
-import OrderDefinition, { OrderTypes } from "../types/order";
+import OrderDefinition, {OrderTypes} from "../types/order";
 
 interface IOrderContext {
-  orderby: OrderDefinition;
-  toggleOrder?: (newOrder: string) => void;
+    orderby: OrderDefinition;
+    toggleOrder: (newOrder: string) => void;
 }
 
 const defaultState = {
-  orderby: OrderTypes.Random,
+    orderby: OrderTypes.Random,
+    toggleOrder: () => {
+    }
 };
 
 const OrderContext = React.createContext<IOrderContext>(defaultState);
