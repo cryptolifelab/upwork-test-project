@@ -10,20 +10,37 @@ import "./App.css";
 
 const App: React.FC = () => {
   const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const fetchData: () => Promise<void> = async () => {
+    setIsLoading(true)
     const result = await fetch("/jobs.json");
     const data = await result.json();
+    setIsLoading(false)
     setJobs(data);
   };
 
-  const toggleOrder = (newOrder: string) => console.log(newOrder);
+  const toggleOrder = (newOrder: string) => {
+     //if sort order is priority, it will take higher priority to first 
+    //else it will show random
+  
+    let sortedJobs = [...jobs]
+    if (newOrder === OrderTypes.Prioprity) {
+      sortedJobs.sort((a, b) => b[newOrder] - a[newOrder])
+      setJobs(sortedJobs)
+    } else {
+      sortedJobs.sort(() => 0.5 - Math.random())
+      setJobs(sortedJobs)
+    }
+  }
 
   useEffect(() => {
-    setTimeout(() => fetchData(), 3000);
+    // there is no meaning call setTimeout on initial call as it will do nothing but wait for 3 seconds to call function fetchData 
+    // instead show loading indicator to user untill API returns response
+    fetchData()
   }, []);
 
-  const JobList: React.ReactElement[] = jobs.map((value) => {
+  const JobList: React.ReactElement[] = jobs.map((value: any) => {
     const { id } = value;
     return <Job key={id} {...value} />;
   });
@@ -37,7 +54,8 @@ const App: React.FC = () => {
         }}
       >
         <Nav />
-        {!!JobList.length && (
+        {isLoading ? <div>please wait, loading....</div> :
+        !!JobList?.length && (
           <div data-testid="app-jobs" className="App-jobs">
             <OrderBy />
             {JobList}
