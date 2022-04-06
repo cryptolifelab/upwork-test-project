@@ -4,7 +4,7 @@ import "./index.css";
 import OrderContext from "../../contexts/OrderContext";
 
 const OrderBy: FC = () => {
-    const {orderby, toggleOrder} = React.useContext(OrderContext);
+    const {orderBy, toggleOrder} = React.useContext(OrderContext);
 
     return (
         <div className="App-sortby">
@@ -12,8 +12,8 @@ const OrderBy: FC = () => {
             <select
                 className="App-sortby__select"
                 id="filtersortby"
-                onChange={(e:ChangeEvent<HTMLSelectElement>)=>toggleOrder(e.target.value)}
-                value={orderby}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => toggleOrder(e.target.value)}
+                value={orderBy}
             >
                 <option value={OrderTypes.Random}>Random</option>
                 <option value={OrderTypes.Priority}>By Priority</option>

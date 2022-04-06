@@ -12,7 +12,7 @@ import {compareSortByPriority} from "./helpers/sort/compareSortByPriority";
 import Loader from "./components/Loader";
 
 const App: React.FC = () => {
-    const [orderby, setOrderBy] = useState(OrderTypes.Random)
+    const [orderBy, setOrderBy] = useState(OrderTypes.Random)
     const [jobs, setJobs] = useState<JobDefinition[]>([]);
 
     const fetchData: () => Promise<void> = async () => {
@@ -26,6 +26,12 @@ const App: React.FC = () => {
         if (newOrder === OrderTypes.Random || newOrder === OrderTypes.Priority) setOrderBy(newOrder);
     };
 
+    const sortJobs = () => {
+        const jobsOrder = [...jobs].sort(orderBy === OrderTypes.Priority ? compareSortByPriority : shuffleSort)
+
+        setJobs(jobsOrder);
+    }
+
     useEffect(() => {
         const timer = setTimeout(() => fetchData(), 3000);
 
@@ -33,12 +39,8 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (jobs.length > 0) {
-            const jobsOrder = [...jobs].sort(orderby === OrderTypes.Priority ? compareSortByPriority : shuffleSort)
-
-            setJobs(jobsOrder);
-        }
-    }, [orderby])
+        if (jobs.length > 0) sortJobs()
+    }, [orderBy])
 
     const JobList: React.ReactElement[] = jobs.map((value: JobDefinition) => (<Job key={value.id} {...value} />))
 
@@ -46,7 +48,7 @@ const App: React.FC = () => {
         <div className="App">
             <OrderContext.Provider
                 value={{
-                    orderby,
+                    orderBy,
                     toggleOrder,
                 }}
             >
