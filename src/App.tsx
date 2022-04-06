@@ -8,6 +8,17 @@ import { OrderTypes } from "./types/order";
 
 import "./App.css";
 
+const LoadingInd: React.FC = () => {
+  return <div className="loading-ind">
+    <div className="loading-ind-title">
+      Loading Jobs
+    </div>
+    <div className="loading-ind-subtitle">
+      It won't take long
+    </div>
+  </div>
+}
+
 const App: React.FC = () => {
   const [jobs, setJobs] = useState([]);
 
@@ -37,12 +48,12 @@ const App: React.FC = () => {
         }}
       >
         <Nav />
-        {!!JobList.length && (
+        {!!JobList.length ? (
           <div data-testid="app-jobs" className="App-jobs">
             <OrderBy />
             {JobList}
           </div>
-        )}
+        ): <LoadingInd />}
       </OrderContext.Provider>
     </div>
   );

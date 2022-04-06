@@ -21,3 +21,22 @@
   margin-bottom: 2rem;
   margin-top: 16px;
 }
+
+.loading-ind {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+.loading-ind>.loading-ind-title {
+  color: #444;
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-bottom: 0.75em;
+}
+.loading-ind>.loading-ind-subtitle {
+  color: #222;
+  font-size: 1.25em;
+}
