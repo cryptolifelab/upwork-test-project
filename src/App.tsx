@@ -37,7 +37,12 @@ const App: React.FC = () => {
         }}
       >
         <Nav />
-        {!!JobList.length && (
+        {!JobList.length ? (
+          <div className="loader-wrapper">
+            <div className="loader"></div>
+            <span>Loading Jobs...</span>
+          </div>
+        ) : (
           <div data-testid="app-jobs" className="App-jobs">
             <OrderBy />
             {JobList}
