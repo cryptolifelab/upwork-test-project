@@ -11,6 +11,17 @@ import "./App.css";
 
 const App: React.FC = () => {
   const [jobs, setJobs] = useState([]);
+  const [paginatedJobs, setPaginatedJobs] = useState([]);
+  const [pageIndex, setPageIndex] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => fetchData(), 3000);
+  }, []);
+
+  useEffect(() => {
+    setPaginatedJobs([]);
+    setPaginatedJobs([...jobs].slice(pageIndex * 100, 100 + pageIndex * 100));
+  }, [jobs, pageIndex]);
 
   const fetchData: () => Promise<void> = async () => {
     const result = await fetch("/jobs.json");
@@ -34,10 +45,9 @@ const App: React.FC = () => {
     setTimeout(() => fetchData(), 3000);
   }, []);
 
-  const JobList: React.ReactElement[] = jobs.map((value) => {
-    const { id } = value;
-    return <Job key={id} {...value} />;
-  });
+  const JobList: React.ReactElement[] = paginatedJobs.map(
+    (value: JobDefinition) => <Job key={value.id} {...value} />
+  );
 
   return (
     <div className="App">
@@ -49,14 +59,26 @@ const App: React.FC = () => {
       >
         <Nav />
         {!JobList.length ? (
-          <div className="loader-wrapper">
-            <div className="loader"></div>
+          <div className="App-loader-wrapper">
+            <div className="App-loader"></div>
             <span>Loading Jobs...</span>
           </div>
         ) : (
           <div data-testid="app-jobs" className="App-jobs">
             <OrderBy toggleOrder={toggleOrder} />
             {JobList}
+            <div className="App-pagination">
+              <button
+                disabled={!pageIndex}
+                type="button"
+                onClick={() => setPageIndex(pageIndex - 1)}
+              >
+                Previous
+              </button>
+              <button type="button" onClick={() => setPageIndex(pageIndex + 1)}>
+                Next
+              </button>
+            </div>
           </div>
         )}
       </OrderContext.Provider>
