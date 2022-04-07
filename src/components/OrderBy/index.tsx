@@ -1,17 +1,19 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
+import OrderContext from "../../contexts/OrderContext";
 
 import { OrderTypes } from "../../types/order";
 import "./index.css";
 
 const Job: FC = () => {
+  const { toggleOrder } = useContext(OrderContext);
   const [selected, setSelected] = useState(OrderTypes.Random);
-
   const onOrderChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     if (
       e.target.value === OrderTypes.Random ||
       e.target.value === OrderTypes.Prioprity
     ) {
       setSelected(e.target.value);
+      toggleOrder(e.target.value);
     }
   };
   return (
